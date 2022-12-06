@@ -1,10 +1,5 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import markerIconRetinaURL from 'leaflet/dist/images/marker-icon-2x.png';
-	import markerIconURL from 'leaflet/dist/images/marker-icon.png';
-	import markerShadowURL from 'leaflet/dist/images/marker-shadow.png';
-	import 'leaflet/dist/leaflet.css';
-	import { onMount } from 'svelte';
+	import { setMap } from '$lib/shared/actions/map';
 
 	export let id: string;
 	export let location: {
@@ -14,60 +9,10 @@
 	export let zoom: number = 19;
 	export let style: string = 'width:425px; height:350px';
 	export let markerMarkup: string = '';
-	export let marker: boolean = markerMarkup !== '';
 	export let mapboxAccessToken: string;
 
-	const { latitude, longitude } = location;
-
-	let mapElement: HTMLElement;
-
-	async function setMap() {
-		if (browser) {
-			const {
-				icon: leafletIcon,
-				map: leafletMap,
-				marker: leafletMarker,
-				tileLayer
-			} = await import('leaflet');
-
-			const markerIcon = leafletIcon({
-				iconSize: [25, 41],
-				iconAnchor: [10, 41],
-				popupAnchor: [2, -40],
-				iconUrl: markerIconURL,
-				iconRetinaUrl: markerIconRetinaURL,
-				shadowUrl: markerShadowURL
-			});
-
-			const map = leafletMap(mapElement).setView([latitude, longitude], zoom);
-			tileLayer(
-				'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}{r}?access_token={accessToken}',
-				{
-					attribution:
-						'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-					maxZoom: 19,
-					id: 'mapbox/streets-v11',
-					tileSize: 512,
-					zoomOffset: -1,
-					accessToken: mapboxAccessToken,
-					detectRetina: true
-				}
-			).addTo(map);
-			if (marker) {
-				if (markerMarkup) {
-					leafletMarker([latitude, longitude], { icon: markerIcon })
-						.bindPopup(markerMarkup)
-						.addTo(map);
-				} else {
-					leafletMarker([latitude, longitude], { icon: markerIcon }).addTo(map);
-				}
-			}
-		}
-	}
-
-	onMount(async () => {
-		browser && (await setMap());
-	});
+	let { latitude, longitude } = location;
+	$: ({ latitude, longitude } = location);
 </script>
 
 <svelte:head>
@@ -75,4 +20,4 @@
 	<link rel="dns-prefetch" href="https://api.mapbox.com" />
 </svelte:head>
 
-<figure bind:this={mapElement} {id} {style} />
+<figure use:setMap={{ latitude, longitude, zoom, mapboxAccessToken, markerMarkup }} {id} {style} />
