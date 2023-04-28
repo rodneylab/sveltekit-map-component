@@ -1,4 +1,4 @@
 declare const website: {
-    mapboxAccessToken: any;
+	mapboxAccessToken: any;
 };
 export { website as default };
