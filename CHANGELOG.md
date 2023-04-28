@@ -1,7 +1,8 @@
-## 2.0.2 (2023-01-05)
+## 2.0.3 (2023-04-28)
 
 ### Fix
 
+- 💫 update dependencies
 - 💫 add interactive map example
 - **dependencies**: 💫 update packages
 - **dependencies**: 💫 update packages
