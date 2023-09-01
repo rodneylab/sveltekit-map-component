@@ -1,3 +1,10 @@
+## 2.0.4 (2023-09-01)
+
+### Fix
+
+- 💫 update packages
+- 💫 update package.json scritps
+
 ## 2.0.3 (2023-04-28)
 
 ### Fix
