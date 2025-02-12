@@ -1,8 +1,8 @@
+import type { Map } from 'leaflet';
 import markerIconRetinaURL from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIconURL from 'leaflet/dist/images/marker-icon.png';
 import markerShadowURL from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import type { Map } from 'leaflet';
 
 interface MapNodeProps {
 	latitude: number;
@@ -14,13 +14,13 @@ interface MapNodeProps {
 
 async function updateMap(
 	mapElement: HTMLElement,
-	{ latitude, longitude, zoom, mapboxAccessToken, markerMarkup = '' }: MapNodeProps
+	{ latitude, longitude, zoom, mapboxAccessToken, markerMarkup = '' }: MapNodeProps,
 ) {
 	const {
 		icon: leafletIcon,
 		map: leafletMap,
 		marker: leafletMarker,
-		tileLayer
+		tileLayer,
 	} = await import('leaflet');
 
 	const markerIcon = leafletIcon({
@@ -29,7 +29,7 @@ async function updateMap(
 		popupAnchor: [2, -40],
 		iconUrl: markerIconURL,
 		iconRetinaUrl: markerIconRetinaURL,
-		shadowUrl: markerShadowURL
+		shadowUrl: markerShadowURL,
 	});
 
 	const map = leafletMap(mapElement).setView([latitude, longitude], zoom);
@@ -43,8 +43,8 @@ async function updateMap(
 			tileSize: 512,
 			zoomOffset: -1,
 			accessToken: mapboxAccessToken,
-			detectRetina: true
-		}
+			detectRetina: true,
+		},
 	).addTo(map);
 
 	if (markerMarkup !== '') {
@@ -64,6 +64,6 @@ export function setMap(mapElement: HTMLElement, mapProps: MapNodeProps) {
 		// return update function to be called when props change
 		async update({ latitude, longitude, zoom }: MapNodeProps) {
 			map?.flyTo([latitude, longitude], zoom);
-		}
+		},
 	};
 }

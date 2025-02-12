@@ -7,11 +7,3 @@ declare namespace App {
 	// interface PageData {}
 	// interface Platform {}
 }
-
-export declare global {
-	declare namespace svelte.JSX {
-		interface HTMLProps {
-			fetchpriority?: 'auto' | 'high' | 'low' | undefined;
-		}
-	}
-}

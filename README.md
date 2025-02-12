@@ -40,6 +40,7 @@ Add the component to a `.svelte` file in your project:
 ```svelte
 <script>
 	import { Map } from '@rodneylab/sveltekit-map-component';
+
 	const latitude = 51.50162;
 	const longitude = -0.14115;
 	const zoom = 16;
