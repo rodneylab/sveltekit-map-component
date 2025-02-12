@@ -1,18 +1,26 @@
 <script lang="ts">
 	import { setMap } from '$lib/shared/actions/map';
 
-	export let id: string;
-	export let location: {
-		latitude: number;
-		longitude: number;
-	};
-	export let zoom: number = 19;
-	export let style: string = 'width:425px; height:350px';
-	export let markerMarkup: string = '';
-	export let mapboxAccessToken: string;
+	let {
+		id,
+		location,
+		zoom = 19,
+		style = 'width:425px; height:350px',
+		markerMarkup = '',
+		mapboxAccessToken,
+	}: {
+		id: string;
+		location: {
+			latitude: number;
+			longitude: number;
+		};
+		zoom: number;
+		style: string;
+		markerMarkup: string;
+		mapboxAccessToken: string;
+	} = $props();
 
-	let { latitude, longitude } = location;
-	$: ({ latitude, longitude } = location);
+	let { latitude, longitude } = $derived(location);
 </script>
 
 <svelte:head>
@@ -20,4 +28,8 @@
 	<link rel="dns-prefetch" href="https://api.mapbox.com" />
 </svelte:head>
 
-<figure use:setMap={{ latitude, longitude, zoom, mapboxAccessToken, markerMarkup }} {id} {style} />
+<figure
+	use:setMap={{ latitude, longitude, zoom, mapboxAccessToken, markerMarkup }}
+	{id}
+	{style}
+></figure>
